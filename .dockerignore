@@ -1,0 +1,12 @@
+node_modules/
+npm-debug.log
+docker-compose*.yml
+.git
+.gitignore
+README.md
+LICENSE-AGPLv3.txt
+public/assets
+log/*
+tmp/*
+.bundle
+.ebextensions
