@@ -1,4 +1,4 @@
-FROM registry-bosa-docker.bosa.belighted.com/bosa-base:0.2.0
+FROM nexus.asergo.com/2483/apps/bosa-base:0.2.0
 LABEL maintainer="Dominique Lebrun <dominique.lebrun@belighted.com>"
 ENV BUNDLE_WITHOUT=test:development
 ENV BUNDLE_WITH=production
