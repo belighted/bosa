@@ -42,7 +42,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=postgres
     ports:
-      - 5432
+      - 5432:5432
     healthcheck:
       test: pg_isready -U postgres -h 127.0.0.1
       interval: 5s
@@ -52,7 +52,7 @@ services:
     volumes:
       - redis:/data
     ports:
-      - 6379
+      - 6379:6379
     healthcheck:
       test: redis-cli ping
       interval: 1s
