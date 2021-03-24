@@ -8,6 +8,7 @@ import groovy.transform.Field
 @Field def docker_registry_credId   = "asergo-docker-registry"
 @Field def docker_img_prod          = "nexus.asergo.com/2483/prod"
 @Field def docker_img_apps          = "nexus.asergo.com/2483/apps"
+@Field def docker_img_base          = "nexus.asergo.com/2483/base"
 @Field def kube_conf_url            = "https://2483-jier9.k8s.asergo.com:6443/"
 @Field def kube_conf_url_prod       = "https://2483-im9eu.k8s.asergo.com:6443/"
 
