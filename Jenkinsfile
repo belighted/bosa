@@ -78,8 +78,8 @@ podTemplate(
                                 // This will push the app image to registry
                                 pushToNexus(
                                         "${docker_registry_credId}",
-                                        "https://${docker_int_app}/",
-                                        "${docker_int_app}/bosa:${job_base_name}-${build_number}"
+                                        "https://${docker_img_apps}/",
+                                        "${docker_img_apps}/bosa:${job_base_name}-${build_number}"
                                 )
                             }
                         }
