@@ -196,6 +196,28 @@ podTemplate(
                                     ["${docker_img_prod}/bosa:${job_base_name}"]
                             )
                         }
+                        stage('Deploy democracy'){
+                            kubeDeploy(
+                                    "v1.20.0",
+                                    "kube-jenkins-robot-prod",
+                                    "${kube_conf_url_prod}",
+                                    "bosa-democracy",
+                                    "bosa-prod",
+                                    ["bosa-democracy", "bosa-democracy-assets" ],
+                                    ["${docker_img_prod}/bosa:${job_base_name}", "${docker_img_prod}/bosa-assets:${job_base_name}"]
+                            )
+                        }
+                        stage('Deploy democracy-sidekiq'){
+                            kubeDeploy(
+                                    "v1.20.0",
+                                    "kube-jenkins-robot-prod",
+                                    "${kube_conf_url_prod}",
+                                    "bosa-democracy-sidekiq",
+                                    "bosa-prod",
+                                    ["bosa-democracy-sidekiq" ],
+                                    ["${docker_img_prod}/bosa:${job_base_name}"]
+                            )
+                        }
                         break
                 }
             }
