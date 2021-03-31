@@ -32,7 +32,7 @@ module DecidimAws
     end
 
     initializer "Expire sessions" do
-      Rails.application.config.session_store :active_record_store, key: '_decidim_session'
+      Rails.application.config.session_store :active_record_store, key: '_decidim_session', expire_after: 1.hour
       ActiveRecord::SessionStore::Session.serializer = :json
     end
 
