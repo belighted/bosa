@@ -43,7 +43,7 @@
           action_authorized_to("vote", resource: current_initiative, permissions_holder: current_initiative.type).ok? &&
           current_organization.enabled_omniauth_providers[:csam] %>
         <%= link_to decidim.send('user_csam_omniauth_authorize_path',
-                                 redirect_url: initiative_initiative_signatures_path(initiative_slug: current_initiative.slug)),
+                                 origin: initiative_initiative_signatures_path(initiative_slug: current_initiative.slug)),
           class: "button expanded light button--sc", method: :post do %>
             <%= verification_label %>
           <% end %>
