@@ -6,3 +6,7 @@ fr:
         area_ids: Zones
       suggestions_type:
         area_enabled: Permettre aux administrateurs de choisir la zone de suggestion
+  count:
+    title:
+      one: "%{count} suggestion"
+      other: "%{count} suggestions"

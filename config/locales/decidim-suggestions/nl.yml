@@ -6,3 +6,7 @@ nl:
         area_ids: Gebieden
       suggestions_type:
         area_enabled: Stel beheerders in staat het gebied voor suggestie te kiezen
+  count:
+    title:
+      one: "%{count} suggestie"
+      other: "%{count} suggesties"
