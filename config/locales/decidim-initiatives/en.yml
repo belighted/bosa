@@ -151,10 +151,6 @@ en:
           select_scope_label: Scope
 
       initiatives:
-        count:
-          title:
-            one: "%{count} initiative"
-            other: "%{count} initiatives"
         author:
           deleted: Deleted
           identifier: 'Identifier: <b>N°%{identifier}</b>'
