@@ -1,5 +1,1 @@
-<% if suggestions.total_count <= 1 %>
-  <%= t("count.title.one", count: suggestions.total_count) %>
-<% else %>
-  <%= t("count.title.other", count: suggestions.total_count) %>
-<% end %>
+<%= t(".title", count: suggestions.to_a.count) %>

@@ -346,6 +346,7 @@ de:
             other: und %{count} weitere Leute
         count:
           title:
+            zero: "%{count} Petition"
             one: "%{count} Petition"
             other: "%{count} Petitionen"
         filters:

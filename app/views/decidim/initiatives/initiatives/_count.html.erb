@@ -1,5 +1,1 @@
-<% if initiatives.total_count <= 1 %>
-  <%= t(".title.one", count: initiatives.total_count) %>
-<% else %>
-  <%= t(".title.other", count: initiatives.total_count) %>
-<% end %>
+<%= t(".title", count: initiatives.to_a.count) %>

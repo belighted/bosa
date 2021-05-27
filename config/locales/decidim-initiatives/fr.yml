@@ -558,6 +558,7 @@ fr:
             other: et %{count} autres personnes
         count:
           title:
+            zero: "%{count} pétition"
             one: "%{count} pétition"
             other: "%{count} pétitions"
         edit:
