@@ -408,7 +408,6 @@ nl:
             other: en nog %{count} mensen
         count:
           title:
-            zero: "%{count} initiatief"
             one: "%{count} initiatief"
             other: "%{count} initiatieven"
         edit:

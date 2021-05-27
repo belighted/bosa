@@ -153,7 +153,6 @@ en:
       initiatives:
         count:
           title:
-            zero: "%{count} initiative"
             one: "%{count} initiative"
             other: "%{count} initiatives"
         author:
