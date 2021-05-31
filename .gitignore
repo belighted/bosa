@@ -58,3 +58,4 @@ Procfile.dev
 .generators
 
 
+dump.rdb

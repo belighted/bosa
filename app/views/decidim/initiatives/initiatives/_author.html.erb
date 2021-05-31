@@ -29,7 +29,8 @@
     <% end %>
 
     <div class="publish-date">
-      <%= l initiative.published_at || initiative.created_at, format: "%d/%m/%Y" %>
+      <%= t("activemodel.attributes.common.created_at") %>
+      <%= l initiative.created_at, format: "%d/%m/%Y" %>
     </div>
 
     <div class="reference">

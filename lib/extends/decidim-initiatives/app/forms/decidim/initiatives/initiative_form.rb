@@ -7,6 +7,18 @@ module InitiativeFormExtend
 
   included do
 
+    clear_validators!
+    validates :title, :description, presence: true
+    validates :signature_type, presence: true
+    validates :type_id, presence: true
+    validates :area, presence: true, if: ->(form) { form.area_id.present? }
+    validate :scope_exists
+    validate :notify_missing_attachment_if_errored
+    validate :trigger_attachment_errors
+    validates :signature_end_date, date: { after: Date.current }, if: lambda { |form|
+      form.context.initiative_type.custom_signature_end_date_enabled? && form.signature_end_date.present?
+    }
+
     validates :description, length: {maximum: 4000}
 
     def scope_id
