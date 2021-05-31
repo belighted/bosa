@@ -13,12 +13,25 @@ namespace :users do
     # Remove information on user
     Decidim::User.find_in_batches do |users|
       users.each do |u|
-        u.name = Faker::Name.name
-        u.email = Faker::Internet.email if u.email.present?
-        u.unconfirmed_email = Faker::Internet.email if u.unconfirmed_email.present?
-        u.last_sign_in_ip = "127.0.0.1"
-        u.nickname = Faker::Crypto.sha256[0..15]
-        u.save!
+        attributes = {
+          name: Faker::Name.name.gsub("'", ""),
+          last_sign_in_ip: "127.0.0.1",
+          nickname: Faker::Crypto.sha256[0..15],
+          email:Faker::Internet.email
+        }
+
+        sql = <<-SQL
+        UPDATE decidim_users
+          SET name = '#{attributes[:name]}',
+              last_sign_in_ip = '#{attributes[:last_sign_in_ip]}',
+              nickname = '#{attributes[:nickname]}',
+              email = '#{attributes[:email]}',
+              unconfirmed_email = NULL,
+              updated_at = LOCALTIMESTAMP
+        WHERE id = #{u.id}
+        SQL
+
+        ActiveRecord::Base.connection.execute(Arel.sql(sql))
       end
     end
 
