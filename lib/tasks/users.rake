@@ -20,18 +20,8 @@ namespace :users do
           email:Faker::Internet.email
         }
 
-        sql = <<-SQL
-        UPDATE decidim_users
-          SET name = '#{attributes[:name]}',
-              last_sign_in_ip = '#{attributes[:last_sign_in_ip]}',
-              nickname = '#{attributes[:nickname]}',
-              email = '#{attributes[:email]}',
-              unconfirmed_email = NULL,
-              updated_at = LOCALTIMESTAMP
-        WHERE id = #{u.id}
-        SQL
+        u.update_columns attributes
 
-        ActiveRecord::Base.connection.execute(Arel.sql(sql))
       end
     end
 
