@@ -32,6 +32,7 @@ gem 'sidekiq-scheduler'
 gem "uglifier", "~> 4.1"
 gem "wicked_pdf", "~> 1.4"
 gem 'wkhtmltopdf-binary'
+gem 'goldiloader'
 
 gem 'dotenv-rails'
 
