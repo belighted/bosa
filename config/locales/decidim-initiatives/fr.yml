@@ -179,6 +179,11 @@ fr:
             email_outro: Vous avez reçu cette notification parce que vous êtes un administrateur de la plateforme.
             email_subject: Seuil de soutiens atteint
             notification_title: L'initiative <a href="%{resource_path}">"%{resource_title}"</a> a atteint le nombre minimum de signatures pour la Région %{scope_name}
+          deadline_over:
+            email_intro: La période de récolte de signatures de la pétition %{resource_title} est terminée. Il n'est actuellement plus possible de récolter des signatures pour cette pétition.
+            email_outro: Vous avez reçu cette notification parce que vous êtes un administrateur de la plateforme.
+            email_subject: La période de récolte de signatures de la pétition est terminée.
+            notification_title: La période de récolte de signatures de la pétition <a href="%{resource_path}">"%{resource_title}"</a> est terminée. Il n'est actuellement plus possible de récolter des signatures pour cette pétition.
         initiative_extended:
           email_intro: La date de fin du recueil des signatures pour la pétition
             %{resource_title} a été prolongée !
@@ -217,6 +222,11 @@ fr:
           email_outro: Vous avez reçu cette notification car vous êtes l'auteur de cette pétition.
           email_subject: Seuil de soutiens atteint
           notification_title: Votre pétition <a href="%{resource_path}">"%{resource_title}"</a> a atteint le nombre minimum de signatures pour la Région %{scope_name}
+        deadline_over:
+          email_intro: La période de récolte de signatures de votre pétition %{resource_title} est terminée. Il n'est actuellement plus possible de récolter des signatures pour votre pétition.
+          email_outro: Vous avez reçu cette notification car vous êtes l'auteur de cette pétition.
+          email_subject: La période de récolte de signatures de votre pétition est terminée.
+          notification_title: La période de récolte de signatures de votre pétition <a href="%{resource_path}">"%{resource_title}"</a> est terminée. Il n'est actuellement plus possible de récolter des signatures pour votre pétition.
     gamification:
       badges:
         initiatives:

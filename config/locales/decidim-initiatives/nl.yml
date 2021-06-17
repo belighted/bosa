@@ -142,6 +142,11 @@ nl:
             email_outro: Je hebt deze melding ontvangen omdat je beheerder bent van het platform.
             email_subject: Ondersteuningsdrempel bereikt
             notification_title: De petitie <a href="%{resource_path}">%{resource_title}</a> heeft het minimumaantal handtekeningen voor het %{scope_name} Gewest bereikt.
+          deadline_over:
+            email_intro: De periode voor het verzamelen van handtekeningen voor de petitie %{resource_title} is voorbij. Het is nu niet meer mogelijk om handtekeningen te verzamelen voor deze petitie.
+            email_outro: Je hebt deze melding ontvangen omdat je beheerder bent van het platform.
+            email_subject: De periode voor het verzamelen van handtekeningen voor de petitie is voorbij.
+            notification_title: De periode voor het verzamelen van handtekeningen voor de petitie <a href="%{resource_path}">"%{resource_title}"</a> is voorbij. Het is nu niet meer mogelijk om handtekeningen te verzamelen voor deze petitie.
         initiative_extended:
           email_intro: De einddatum voor de handtekeningen van initiatief %{resource_title} is verlengd!
           email_outro: U hebt deze melding ontvangen omdat u %{resource_title} volgt. Je kunt de meldingen stoppen door de vorige link te volgen.
@@ -168,6 +173,11 @@ nl:
           email_outro: Je hebt deze melding ontvangen omdat u de auteur van de initiatief bent.
           email_subject: Ondersteuningsdrempel bereikt
           notification_title: Uw petitie <a href="%{resource_path}">%{resource_title}</a> heeft het minimumaantal handtekeningen voor het %{scope_name} Gewest bereikt.
+        deadline_over:
+          email_intro: De periode voor het verzamelen van handtekeningen voor uw petitie %{resource_title} is voorbij. Het is nu niet meer mogelijk om handtekeningen te verzamelen voor deze petitie.
+          email_outro: Je hebt deze melding ontvangen omdat u de auteur van de initiatief bent.
+          email_subject: De periode voor het verzamelen van handtekeningen voor uw petitie is voorbij.
+          notification_title: De periode voor het verzamelen van handtekeningen voor uw petitie <a href="%{resource_path}">"%{resource_title}"</a> is voorbij. Het is nu niet meer mogelijk om handtekeningen te verzamelen voor deze petitie.
     gamification:
       badges:
         initiatives:
