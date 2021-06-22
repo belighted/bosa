@@ -2,7 +2,7 @@
 
 module Decidim
   module Initiatives
-    class DeadlineOverEvent < Decidim::Events::SimpleEvent
+    class SupportPeriodFinishedEvent < Decidim::Events::SimpleEvent
     end
   end
 end

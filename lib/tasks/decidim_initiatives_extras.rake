@@ -11,15 +11,15 @@ namespace :decidim_initiatives do
       end
 
       Decidim::EventsManager.publish(
-        event: "decidim.events.initiatives.deadline_over",
-        event_class: Decidim::Initiatives::DeadlineOverEvent,
+        event: "decidim.events.initiatives.support_period_finished",
+        event_class: Decidim::Initiatives::SupportPeriodFinishedEvent,
         resource: initiative,
         affected_users: [initiative.author]
       )
 
       Decidim::EventsManager.publish(
-        event: "decidim.events.initiatives.admin.deadline_over",
-        event_class: Decidim::Initiatives::Admin::DeadlineOverEvent,
+        event: "decidim.events.initiatives.admin.support_period_finished",
+        event_class: Decidim::Initiatives::Admin::SupportPeriodFinishedEvent,
         resource: initiative,
         affected_users: initiative.organization.admins
       )

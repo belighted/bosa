@@ -78,7 +78,7 @@ en:
             email_outro: You have received this notification because you are an admin of the platform.
             email_subject: Support threshold reached
             notification_title: The <a href="%{resource_path}">%{resource_title}</a> initiative has reached the minimum number of signatures for the %{scope_name} Region.
-          deadline_over:
+          support_period_finished:
             email_intro: The period for collecting signatures for the initiative %{resource_title} is over. It is currently no longer possible to collect signatures for this initiative.
             email_outro: You have received this notification because you are an admin of the platform.
             email_subject: The period for collecting signatures for the initiative is over.
@@ -93,7 +93,7 @@ en:
           email_outro: You have received this notification because you are author of initiative.
           email_subject: Support threshold reached
           notification_title: Your <a href="%{resource_path}">%{resource_title}</a> initiative has reached the minimum number of signatures for the %{scope_name} Region.
-        deadline_over:
+        support_period_finished:
           email_intro: The period for collecting signatures for your initiative %{resource_title} is over. It is currently no longer possible to collect signatures for this initiative.
           email_outro: You have received this notification because you are author of initiative.
           email_subject: The period for collecting signatures for your initiative is over.

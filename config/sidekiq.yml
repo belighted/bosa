@@ -11,18 +11,27 @@
   CalculateAllMetrics:
     cron: '0 14 * * *'
     class: CalculateAllMetricsJob
-  PreloadOpenData:
-    cron: '0 17 * * *'
-    class: PreloadOpenDataJob
+#  PreloadOpenData:
+#    cron: '0 17 * * *'
+#    class: PreloadOpenDataJob
   CheckPublishedInitiatives:
-    cron: '0 16 * * *'
+    cron: '0 8,16,23 * * *'
     class: CheckPublishedInitiatives
+  CheckPublishedSuggestions:
+    cron: '5 8,16,23 * * *'
+    class: CheckPublishedSuggestions
   CheckValidatingInitiatives:
-    cron: '30 16 * * *'
+    cron: '30 8,16,23 * * *'
     class: CheckValidatingInitiatives
+  CheckValidatingSuggestions:
+    cron: '35 8,16,23 * * *'
+    class: CheckValidatingSuggestions
   NotifyProgressInitiatives:
     cron: '45 8,16,23 * * *'
     class: NotifyProgressInitiatives
+  NotifyProgressSuggestions:
+    cron: '50 8,16,23 * * *'
+    class: NotifyProgressSuggestions
   CleanSessions:
     cron: '0 5 * * *'
     class: CleanSessions
