@@ -5,6 +5,13 @@ en:
     translated: Translated
 
   decidim:
+    devise:
+      registrations:
+        new:
+          nickname_help: 'Your alias in %{organization} <br><span>Allowed characters are numbers, letters, "-" and "_".</span></br>'
+    account:
+      show:
+        nickname_help: 'Allowed characters are numbers, letters, "-" and "_".'
     authorization_form:
       document_number_help_text: Only letters and numbers are authorized. Avoid special characters and spaces. E.g. Petition20210605
     authorization_modals:

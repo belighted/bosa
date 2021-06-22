@@ -31,7 +31,7 @@ module AdminInitiativeFormExtend
       self.decidim_scope_id = model.scope&.id
       self.offline_votes = model.offline_votes
 
-      if offline_votes.empty?
+      if (offline_votes || {}).except("total").empty?
         self.offline_votes = model.votable_initiative_type_scopes.each_with_object({}) do |initiative_scope_type, all_votes|
           all_votes[initiative_scope_type.decidim_scopes_id || "global"] = [0, initiative_scope_type.scope_name]
         end

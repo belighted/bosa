@@ -16,6 +16,13 @@ nl:
     translate: Translate
     translated: Translated
   decidim:
+    devise:
+      registrations:
+        new:
+          nickname_help: 'Jouw bijnaam in %{organization} <br><span>Toegestane tekens zijn cijfers, letters, "-" en "_".</span></br>'
+    account:
+      show:
+        nickname_help: 'Toegestane tekens zijn cijfers, letters, "-" en "_".'
     authorization_form:
       document_number_help_text: Alleen letters en cijfers zijn toegestaan. Vermijd speciale tekens en spaties. Bijv. Verzoekschrift20210605
     accessibility:

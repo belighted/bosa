@@ -379,9 +379,9 @@ module Decidim
     end
 
     def set_offline_votes_total
-      return if offline_votes.blank? || scope.nil?
+      self.offline_votes = {"total": 0} if offline_votes.blank?
 
-      offline_votes["total"] = offline_votes[scope.id.to_s]
+      self.offline_votes.merge!({"total": offline_votes.except('total').values.sum(&:to_i)})
     end
 
     # Public: Finds all the InitiativeTypeScopes that are eligible to be voted by a user.
@@ -437,7 +437,7 @@ module Decidim
     end
 
     def accepts_offline_votes?
-      published? && (offline_signature_type? || any_signature_type?)
+      published? && votes_enabled? && (offline_signature_type? || any_signature_type?)
     end
 
     def accepts_online_votes?

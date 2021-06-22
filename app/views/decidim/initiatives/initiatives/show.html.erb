@@ -15,9 +15,11 @@ edit_link(
 )
 %>
 
-<%= participatory_space_floating_help %>
+<% cache [current_initiative, I18n.locale, "floating_help"] do %>
+  <%= participatory_space_floating_help %>
+<% end %>
 
-<% add_decidim_page_title(translated_attribute(current_initiative.title)) %>
+<%# add_decidim_page_title(translated_attribute(current_initiative.title)) %>
 <% provide :meta_image_url, current_initiative.type.banner_image.url %>
 <div class="row initiative">
   <% unless current_initiative.online_signature_type? %>
@@ -50,17 +52,21 @@ edit_link(
       </div>
     </div>
     <% if current_initiative.votes_enabled_state? || current_initiative.accepted? %>
-      <%= render partial: "decidim/shared/share_modal" %>
-      <%= embed_modal_for initiative_initiative_widget_url(current_initiative, format: :js) %>
+      <% cache [current_initiative, I18n.locale, "embedded_share_modals"] do %>
+        <%= render partial: "decidim/shared/share_modal" %>
+        <%= embed_modal_for initiative_initiative_widget_url(current_initiative, format: :js) %>
+      <% end %>
     <% end %>
-    <%= resource_reference(current_initiative) %>
-    <div class="tech-info">
-      <strong class="text-uppercase">
-        <%= t(".version", number: "#{current_initiative.versions_count}") %>
-      </strong>
-      <%= t(".of_versions", number: "#{current_initiative.versions_count}") %>
-      <%= link_to t(".see_other_versions"), initiative_versions_path(current_initiative) %>
-    </div>
+    <% cache [current_initiative, I18n.locale, "tech_info"] do %>
+      <%= resource_reference(current_initiative) %>
+      <div class="tech-info">
+        <strong class="text-uppercase">
+          <%= t(".version", number: "#{current_initiative.versions_count}") %>
+        </strong>
+        <%= t(".of_versions", number: "#{current_initiative.versions_count}") %>
+        <%= link_to t(".see_other_versions"), initiative_versions_path(current_initiative) %>
+      </div>
+    <% end %>
   </div>
 
   <div class="columns mediumlarge-8 mediumlarge-pull-4">
@@ -71,11 +77,11 @@ edit_link(
         </h2>
         <%= render partial: "author", locals: { initiative: current_initiative } %>
         <%= translate_button_helper_for(
-                title: translated_attribute(current_initiative.title),
-                body: translated_attribute(current_initiative.description),
-                model: current_initiative,
-                options: { class: "hide-for-small-only" }
-            ) %>
+          title: translated_attribute(current_initiative.title),
+          body: translated_attribute(current_initiative.description),
+          model: current_initiative,
+          options: { class: "hide-for-small-only" }
+        ) %>
       </div>
       <br>
       <div class="row column">
@@ -84,11 +90,11 @@ edit_link(
           <%#= decidim_sanitize simple_format(translated_attribute(current_initiative.description)) %>
           <%= decidim_sanitize translated_attribute(current_initiative.description) %>
           <%= translate_button_helper_for(
-                  title: translated_attribute(current_initiative.title),
-                  body: translated_attribute(current_initiative.description),
-                  model: current_initiative,
-                  options: { class: "show-for-small-only" }
-              ) %>
+            title: translated_attribute(current_initiative.title),
+            body: translated_attribute(current_initiative.description),
+            model: current_initiative,
+            options: { class: "show-for-small-only" }
+          ) %>
         </div>
         <%= render partial: "tags", locals: { resource: current_initiative } %>
       </div>

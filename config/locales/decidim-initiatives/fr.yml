@@ -14,6 +14,7 @@ fr:
         description: Description
         offline_votes: Votes en présentiel
         offline_votes_for_scope: Signatures en présentiel pour %{scope_name}
+        online_votes_for_scope: Signatures en ligne pour %{scope_name}
         scope_id: Périmètre d'application
         signature_end_date: Fin de la période de collecte des signatures
         signature_start_date: Début de la période de collecte des signatures
@@ -658,6 +659,9 @@ fr:
         vote_button:
           cannot_accumulate_supports_beyond_threshold: Le nombre de votes requis est atteint
         votes_count:
+          total_count:
+            one: TOTAL SIGNATURE
+            other: TOTAL SIGNATURES
           count:
             one: SIGNATURE
             other: SIGNATURES

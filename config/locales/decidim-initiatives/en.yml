@@ -5,6 +5,7 @@ en:
       initiative:
         area_ids: Areas
         offline_votes_for_scope: In-person signatures for %{scope_name}
+        online_votes_for_scope: Online signatures for %{scope_name}
 
       initiatives_type:
         #area_enabled: Enable authors to choose the area for their initiative
@@ -190,6 +191,10 @@ en:
           version: Version %{number}
         vote_button:
           cannot_accumulate_supports_beyond_threshold: The required amount of votes has been reached
+        votes_count:
+          total_count:
+            one: TOTAL SIGNATURE
+            other: TOTAL SIGNATURES
         organization_initiatives_settings:
           create:
             modal_title: Sorry, you are not allowed to perfom this action

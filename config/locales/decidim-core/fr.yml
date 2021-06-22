@@ -17,6 +17,13 @@ fr:
     translate: Traduire
     translated: Traduit
   decidim:
+    devise:
+      registrations:
+        new:
+          nickname_help: 'Votre alias dans %{organization} <br><span>Les caractères autorisés sont les chiffres, les lettres, "-" et "_".</span></br>'
+    account:
+      show:
+        nickname_help: 'Les caractères autorisés sont les chiffres, les lettres, "-" et "_".'
     authorization_form:
       document_number_help_text: "Seuls les lettres et les chiffres sont autorisés. Évitez les caractères spéciaux et les espaces. Par exemple : Petition20210605"
     accessibility:
