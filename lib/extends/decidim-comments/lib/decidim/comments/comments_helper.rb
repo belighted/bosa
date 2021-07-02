@@ -6,6 +6,8 @@ module CommentsHelperExtend
   extend ActiveSupport::Concern
 
   included do
+    delegate :current_locale, to: :controller
+
     def translatable?
       @organization ||= try(:current_organization)
       @organization ||= try(:current_participatory_space).try(:organization)
@@ -17,3 +19,5 @@ module CommentsHelperExtend
 end
 
 Decidim::Comments::CommentsHelper.send(:include, CommentsHelperExtend)
+Decidim::Comments::CommentCell.send(:include, Decidim::Comments::CommentsHelper)
+Decidim::Comments::CommentCell.send(:include, Decidim::DeeplHelper)

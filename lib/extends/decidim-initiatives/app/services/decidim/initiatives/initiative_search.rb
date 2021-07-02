@@ -8,24 +8,17 @@ module InitiativeSearchExtend
   included do
 
     def search_state
-      accepted = state.member?("accepted") ? query.accepted : nil
-      rejected = state.member?("rejected") ? query.rejected : nil
-      answered = state.member?("answered") ? query.answered : nil
-      open = state.member?("open") ? query.open : nil
-      closed = state.member?("closed") ? query.closed : nil
-      examinated = state.member?("examinated") ? query.examinated : nil
-      debatted = state.member?("debatted") ? query.debatted : nil
-      classified = state.member?("classified") ? query.classified : nil
+      ids = []
+      ids += state.member?("accepted") ? query.accepted.ids : []
+      ids += state.member?("rejected") ? query.rejected.ids : []
+      ids += state.member?("answered") ? query.answered.ids : []
+      ids += state.member?("open") ? query.open.ids : []
+      ids += state.member?("closed") ? query.closed.ids : []
+      ids += state.member?("examinated") ? query.examinated.ids : []
+      ids += state.member?("debatted") ? query.debatted.ids : []
+      ids += state.member?("classified") ? query.classified.ids : []
 
-      query
-        .where(id: accepted)
-        .or(query.where(id: rejected))
-        .or(query.where(id: answered))
-        .or(query.where(id: open))
-        .or(query.where(id: closed))
-        .or(query.where(id: examinated))
-        .or(query.where(id: debatted))
-        .or(query.where(id: classified))
+      query.where(id: ids)
     end
 
     def search_area_id

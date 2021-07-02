@@ -9,11 +9,14 @@ module VoteFormExtend
     attribute :user_scope_id, Integer
     attribute :resident, Virtus::Attribute::Boolean
 
-    attribute :initiative, Integer
-    attribute :signer, Integer
+    # attribute :initiative, Integer
+    # attribute :signer, Integer
 
     clear_validators!
     validates :initiative, :signer, presence: true
+
+    validates :authorized_scopes, presence: true
+
     with_options if: :required_personal_data? do
       validates :encrypted_metadata, :hash_id, :resident, presence: true
       validate :already_voted?
@@ -33,22 +36,6 @@ module VoteFormExtend
     #
     #   @encrypted_metadata ||= encryptor.encrypt({})
     # end
-
-    # Public: The hash to uniquely identify an initiative vote. It uses the
-    # initiative scope as a default.
-    #
-    # Returns a String.
-    def hash_id
-      return unless initiative && (document_number || signer)
-
-      @hash_id ||= Digest::MD5.hexdigest(
-        [
-          initiative.id,
-          document_number || signer.id,
-          Rails.application.secrets.secret_key_base
-        ].compact.join("-")
-      )
-    end
 
     # Public: Builds the list of scopes where the user is authorized to vote in. This is used when
     # the initiative allows also voting on child scopes, not only the main scope.
@@ -122,67 +109,12 @@ module VoteFormExtend
 
     protected
 
-    # Private: Whether the personal data given when signing the initiative should
-    # be stored together with the vote or not.
-    #
-    # Returns a Boolean.
-    def required_personal_data?
-      @required_personal_data ||= initiative&.type&.collect_user_extra_fields?
-    end
-
-    # Private: Checks that the unique hash computed from the authorization
-    # and the user provided data match.
-    #
-    # This prevents users that know partial data from another user to sign
-    # initiatives with someone elses identity.
-    def document_number_authorized?
-      return if initiative.document_number_authorization_handler.blank?
-
-      errors.add(:document_number, :invalid) unless authorized? && authorization_handler && authorization.unique_id == authorization_handler.unique_id
-    end
-
-    # Private: Checks if there's any existing vote that matches the user's data.
-    def already_voted?
-      errors.add(:document_number, :taken) if initiative.votes.where(hash_id: hash_id, scope: scope).exists?
-    end
-
     # Private: Checks if the data given at the vote form matches the same data
     # we have at the authorization.
     def personal_data_consistent_with_metadata
       return if initiative.document_number_authorization_handler.blank?
 
       errors.add(:base, :invalid) unless authorized? && authorization_handler && user_authorized_scope
-    end
-
-    # Private: Finds an authorization for the user signing the initiative and
-    # the configured handler.
-    def authorization
-      return unless signer && handler_name
-
-      @authorization ||= Decidim::Verifications::Authorizations.new(
-        organization: signer.organization,
-        user: signer,
-        name: handler_name
-      ).first
-    end
-
-    def authorization_status
-      return unless authorization
-
-      Decidim::Verifications::Adapter.from_element(handler_name).authorize(authorization, {}, nil, nil, nil)
-    end
-
-    # Private: Checks if the authorization hasn't expired or is invalid.
-    def authorized?
-      authorization_status&.first == :ok
-    end
-
-    # Private: The AuthorizationHandler name used to verify the user's
-    # document number.
-    #
-    # Returns a String.
-    def handler_name
-      initiative.document_number_authorization_handler
     end
 
     # Private: Builds an authorization handler with the data the user provided
@@ -202,6 +134,12 @@ module VoteFormExtend
       return unless document_number && handler_name
 
       @authorization_handler ||= Decidim::AuthorizationHandler.handler_for(handler_name)
+    end
+
+    def authorization_status
+      return unless authorization
+
+      Decidim::Verifications::Adapter.from_element(handler_name).authorize(authorization, {}, nil, nil, nil)
     end
 
     def user_scope_belongs_to_organization?

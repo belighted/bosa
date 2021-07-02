@@ -15,5 +15,4 @@ module AuthorizationSignModalsControllerExtend
   end
 end
 
-Decidim::Initiatives::AuthorizationSignModalsController
-  .send(:include, AuthorizationSignModalsControllerExtend)
+Decidim::Initiatives::AuthorizationSignModalsController.send(:include, AuthorizationSignModalsControllerExtend)

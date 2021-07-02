@@ -10,59 +10,19 @@ module InitiativeSignaturesControllerExtend
 
     # GET /initiatives/:initiative_id/initiative_signatures/:step
     def show
-      group_id = params[:group_id] || (session[:initiative_vote_form] ||= {})["group_id"]
       if params[:id] == "finish"
         if current_initiative.votes.where(decidim_author_id: current_user.id).empty?
-          enforce_permission_to :vote, :initiative, initiative: current_initiative, group_id: group_id
+          enforce_permission_to :vote, :initiative, initiative: current_initiative
         else
           redirect_to initiative_path(current_initiative) and return
         end
       else
-        enforce_permission_to :sign_initiative, :initiative, initiative: current_initiative, group_id: group_id, signature_has_steps: signature_has_steps?
+        enforce_permission_to :sign_initiative, :initiative, initiative: current_initiative, signature_has_steps: signature_has_steps?
       end
       send("#{step}_step", initiative_vote_form: session[:initiative_vote_form])
     end
 
-    # POST /initiatives/:initiative_id/initiative_signatures
-    def create
-      group_id = params[:group_id] || session[:initiative_vote_form]&.dig("group_id")
-      enforce_permission_to :vote, :initiative, initiative: current_initiative, group_id: group_id
-
-      @form = form(Decidim::Initiatives::VoteForm)
-              .from_params(
-                initiative: current_initiative,
-                signer: current_user,
-                group_id: group_id
-              )
-
-      Decidim::Initiatives::VoteInitiative.call(@form) do
-        on(:ok) do
-          current_initiative.reload
-          render :update_buttons_and_counters
-        end
-
-        on(:invalid) do
-          render json: {
-            error: I18n.t("create.error", scope: "decidim.initiatives.initiative_votes")
-          }, status: :unprocessable_entity
-        end
-      end
-    end
-
     private
-
-    def fill_personal_data_step(_unused)
-      @form = form(Decidim::Initiatives::VoteForm)
-              .from_params(
-                initiative: current_initiative,
-                signer: current_user,
-                group_id: params[:group_id]
-              )
-
-      session[:initiative_vote_form] = { group_id: @form.group_id }
-      skip_step unless initiative_type.collect_user_extra_fields
-      render_wizard
-    end
 
     def finish_step(parameters)
       if parameters.has_key?(:initiatives_vote) || !fill_personal_data_step?
@@ -99,15 +59,6 @@ module InitiativeSignaturesControllerExtend
       end
 
       render_wizard
-    end
-
-    def build_vote_form(parameters)
-      @vote_form = form(Decidim::Initiatives::VoteForm).from_params(parameters).tap do |form|
-        form.initiative = current_initiative
-        form.signer = current_user
-      end
-
-      session[:initiative_vote_form] = session[:initiative_vote_form].merge(@vote_form.attributes_with_values)
     end
 
     def user_scopes

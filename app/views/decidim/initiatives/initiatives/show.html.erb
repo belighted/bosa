@@ -54,7 +54,7 @@ edit_link(
     <% if current_initiative.votes_enabled_state? || current_initiative.accepted? %>
       <% cache [current_initiative, I18n.locale, "embedded_share_modals"] do %>
         <%= render partial: "decidim/shared/share_modal" %>
-        <%= embed_modal_for initiative_initiative_widget_url(current_initiative, format: :js) %>
+        <%= embed_modal_for initiative_widget_url(current_initiative, format: :js) %>
       <% end %>
     <% end %>
     <% cache [current_initiative, I18n.locale, "tech_info"] do %>

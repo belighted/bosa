@@ -7,9 +7,6 @@ module InitiativesEngineExtend
 
   included do
     routes do
-      resources :initiatives, param: :slug, only: [:index, :show], path: "initiatives" do
-        resources :versions, only: [:show, :index]
-      end
       get "initiatives_authorization_creation_modal", to: "authorization_creation_modals#show"
 
       resources :initiative_types, only: [:show], path: "initiatives_types" do

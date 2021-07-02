@@ -24,8 +24,8 @@ shared_examples "update an initiative type" do
   describe "call" do
     let(:form_params) do
       {
-        title: Decidim::Faker::Localized.sentence(5),
-        description: Decidim::Faker::Localized.sentence(25),
+        title: Decidim::Faker::Localized.sentence(word_count: 5),
+        description: Decidim::Faker::Localized.sentence(word_count: 25),
         signature_type: "offline",
         attachments_enabled: true,
         undo_online_signatures_enabled: false,
@@ -35,7 +35,7 @@ shared_examples "update an initiative type" do
         minimum_committee_members: 7,
         banner_image: Decidim::Dev.test_file("city2.jpeg", "image/jpeg"),
         collect_user_extra_fields: true,
-        extra_fields_legal_information: Decidim::Faker::Localized.sentence(25),
+        extra_fields_legal_information: Decidim::Faker::Localized.sentence(word_count: 25),
         document_number_authorization_handler: ""
       }
     end

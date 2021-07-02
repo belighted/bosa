@@ -7,6 +7,8 @@ module SuggestionsControllerExtend
 
   included do
 
+    private
+
     def default_filter_params
       {
         search_text: "",

@@ -10,7 +10,7 @@ module FormBuilderExtend
     def date_field(attribute, options = {})
       value = object.send(attribute)
       data = { datepicker: "" }
-      data[:startdate] = I18n.localize(value, format: :decidim_short) if value.present? && value.is_a?(Date)
+      data[:startdate] = I18n.l(value, format: :decidim_short) if value.present? && value.is_a?(Date)
       datepicker_format = ruby_format_to_datepicker(I18n.t("date.formats.decidim_short"))
       data[:"date-format"] = datepicker_format
 
@@ -26,7 +26,7 @@ module FormBuilderExtend
     def datetime_field(attribute, options = {})
       value = object.send(attribute)
       data = { datepicker: "", timepicker: "" }
-      data[:startdate] = I18n.localize(value, format: :decidim_short) if value.present? && value.is_a?(ActiveSupport::TimeWithZone)
+      data[:startdate] = I18n.l(value, format: :decidim_short) if value.present? && value.is_a?(ActiveSupport::TimeWithZone)
       datepicker_format = ruby_format_to_datepicker(I18n.t("time.formats.decidim_short"))
       data[:"date-format"] = datepicker_format
 
@@ -39,14 +39,18 @@ module FormBuilderExtend
       template.html_safe
     end
 
+    # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
     def upload(attribute, options = {})
       self.multipart = true
       options[:optional] = options[:optional].nil? ? true : options[:optional]
+      label_text = options[:label] || label_for(attribute)
+      alt_text = label_text
 
       file = object.send attribute
       template = ""
-      template += label(attribute, label_for(attribute) + required_for_attribute(attribute))
+      template += label(attribute, label_text + required_for_attribute(attribute))
+      template += upload_help(attribute, options)
       template += if options[:accept].present?
                     @template.file_field @object_name, attribute, accept: options.delete(:accept)
                   else
@@ -55,6 +59,8 @@ module FormBuilderExtend
       if options[:clear_icon]
         template += @template.icon_link_to('circle-x', '', I18n.t("actions.destroy", scope: "decidim.admin"), class: 'clear-attachment float-right')
       end
+      template += extension_allowlist_help(options[:extension_allowlist]) if options[:extension_allowlist].present?
+      template += image_dimensions_help(options[:dimensions_info]) if options[:dimensions_info].present?
 
       if file_is_image?(file)
         template += if file.present?
@@ -62,20 +68,18 @@ module FormBuilderExtend
                     else
                       @template.content_tag :label, I18n.t("default_image", scope: "decidim.forms")
                     end
-        template += @template.link_to @template.image_tag(file.url), file.url, target: "_blank", rel: "noopener"
+        template += @template.link_to @template.image_tag(file.url, alt: alt_text), file.url, target: "_blank", rel: "noopener"
       elsif file_is_present?(file)
         template += @template.label_tag I18n.t("current_file", scope: "decidim.forms")
         template += @template.link_to file.file.filename, file.url, target: "_blank", rel: "noopener"
       end
 
-      if file_is_present?(file)
-        if options[:optional]
-          template += content_tag :div, class: "field" do
-            safe_join([
-                        @template.check_box(@object_name, "remove_#{attribute}"),
-                        label("remove_#{attribute}", I18n.t("remove_this_file", scope: "decidim.forms"))
-                      ])
-          end
+      if file_is_present?(file) && options[:optional]
+        template += content_tag :div, class: "field" do
+          safe_join([
+                      @template.check_box(@object_name, "remove_#{attribute}"),
+                      label("remove_#{attribute}", I18n.t("remove_this_file", scope: "decidim.forms"))
+                    ])
         end
       end
 
@@ -87,6 +91,7 @@ module FormBuilderExtend
 
       template.html_safe
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
 
   end

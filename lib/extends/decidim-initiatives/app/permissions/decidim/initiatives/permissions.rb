@@ -9,11 +9,6 @@ module PermissionsExtend
 
   included do
     def permissions
-      if read_admin_dashboard_action?
-        user_can_read_admin_dashboard?
-        return permission_action
-      end
-
       # Delegate the admin permission checks to the admin permissions class
       return Decidim::Initiatives::Admin::Permissions.new(user, permission_action, context).permissions if permission_action.scope == :admin
       return permission_action if permission_action.scope != :public
@@ -23,18 +18,24 @@ module PermissionsExtend
       list_public_initiatives?
       read_public_initiative?
       search_initiative_types_and_scopes?
+      request_membership?
 
       return permission_action unless user
 
       create_initiative?
+      edit_public_initiative?
+      update_public_initiative?
+
       create_initiative_with_type?
-      request_membership?
 
       vote_initiative?
       sign_initiative?
       unvote_initiative?
 
       initiative_attachment?
+
+      initiative_committee_action?
+      send_to_technical_validation?
 
       permission_action
     end
@@ -50,7 +51,7 @@ module PermissionsExtend
         permission_action.action == :read
 
       return allow! if readable?(initiative)
-      return allow! if user && (initiative.has_authorship?(user) || user.admin?)
+      return allow! if user && authorship_or_admin?
 
       disallow!
     end
@@ -74,32 +75,32 @@ module PermissionsExtend
     )
     end
 
-    def request_membership?
-      return unless permission_action.subject == :initiative &&
-                    permission_action.action == :request_membership
-
-      can_request = !initiative.published? &&
-                    initiative.promoting_committee_enabled? &&
-                    !initiative.has_authorship?(user) &&
-                    (
-                    Decidim::Initiatives.do_not_require_authorization ||
-                      Decidim::Initiatives::UserAuthorizations.for(user).any? ||
-                      Decidim::UserGroups::ManageableUserGroups.for(user).verified.any?
-                  )
-
-      toggle_allow(can_request)
-    end
-
-    def access_request_membership?
-      !initiative.published? &&
-        initiative.promoting_committee_enabled? &&
-        !initiative.has_authorship?(user) &&
-        (
-        Decidim::Initiatives.do_not_require_authorization ||
-          Decidim::ActionAuthorizer.new(user, :create, initiative_type, initiative_type).authorize.ok? ||
-          Decidim::UserGroups::ManageableUserGroups.for(user).verified.any?
-        )
-    end
+    # def request_membership?
+    #   return unless permission_action.subject == :initiative &&
+    #                 permission_action.action == :request_membership
+    #
+    #   can_request = !initiative.published? &&
+    #                 initiative.promoting_committee_enabled? &&
+    #                 !initiative.has_authorship?(user) &&
+    #                 (
+    #                 Decidim::Initiatives.do_not_require_authorization ||
+    #                   Decidim::Initiatives::UserAuthorizations.for(user).any? ||
+    #                   Decidim::UserGroups::ManageableUserGroups.for(user).verified.any?
+    #               )
+    #
+    #   toggle_allow(can_request)
+    # end
+    #
+    # def access_request_membership?
+    #   !initiative.published? &&
+    #     initiative.promoting_committee_enabled? &&
+    #     !initiative.has_authorship?(user) &&
+    #     (
+    #     Decidim::Initiatives.do_not_require_authorization ||
+    #       Decidim::ActionAuthorizer.new(user, :create, initiative_type, initiative_type).authorize.ok? ||
+    #       Decidim::UserGroups::ManageableUserGroups.for(user).verified.any?
+    #     )
+    # end
 
     def creation_authorized?
       return true if Decidim::Initiatives.do_not_require_authorization

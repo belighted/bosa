@@ -7,7 +7,7 @@ module Decidim
     include Decidim::Authorable
     include Decidim::Participable
     include Decidim::Publicable
-    include Decidim::Scopable
+    include Decidim::ScopableParticipatorySpace
     include Decidim::Comments::Commentable
     include Decidim::Followable
     include Decidim::HasAttachments
@@ -20,15 +20,21 @@ module Decidim
     include Decidim::Randomable
     include Decidim::Searchable
     include Decidim::Initiatives::HasArea
+    include Decidim::TranslatableResource
+
+    translatable_fields :title, :description, :answer
 
     belongs_to :organization,
                foreign_key: "decidim_organization_id",
                class_name: "Decidim::Organization"
 
     belongs_to :scoped_type,
-               foreign_key: "scoped_type_id",
                class_name: "Decidim::InitiativesTypeScope",
                inverse_of: :initiatives
+
+    delegate :type, :scope, :scope_name, :supports_required, to: :scoped_type, allow_nil: true
+    delegate :attachments_enabled?, :attachments_enabled, :promoting_committee_enabled?, :custom_signature_end_date_enabled?, :area_enabled?, to: :type
+    delegate :name, :color, :logo, to: :area, prefix: true, allow_nil: true
 
     has_many :votes,
              foreign_key: "decidim_initiative_id",
@@ -93,8 +99,8 @@ module Decidim
 
     scope :order_by_answer_date, -> { order("answered_at DESC nulls last") }
     scope :order_by_most_recent, -> { order(created_at: :desc) }
+    scope :order_by_supports, -> { order(Arel.sql("(coalesce((online_votes->>'total')::int,0) + coalesce((offline_votes->>'total')::int,0)) DESC")) }
     scope :order_by_most_recently_published, -> { order(published_at: :desc) }
-    scope :order_by_supports, -> { order("(coalesce((online_votes->>'total')::int, 0) + coalesce((offline_votes->>'total')::int, 0)) DESC") }
     scope :order_by_most_commented, lambda {
       select("decidim_initiatives.*")
         .left_joins(:comments)
@@ -105,7 +111,7 @@ module Decidim
     scope :past_spaces, -> { closed }
 
     before_update :set_offline_votes_total
-    after_save :notify_state_change
+    after_commit :notify_state_change
     after_create :notify_creation
 
     alias_method :online?, :online_signature_type?
@@ -121,14 +127,6 @@ module Decidim
                       index_on_create: ->(_initiative) { false },
                       # is Resourceable instead of ParticipatorySpaceResourceable so we can't use `visible?`
                       index_on_update: ->(initiative) { initiative.published? })
-
-    def self.future_spaces
-      none
-    end
-
-    def self.past_spaces
-      closed
-    end
 
     def self.log_presenter_class_for(_log)
       Decidim::Initiatives::AdminLog::InitiativePresenter
@@ -153,15 +151,8 @@ module Decidim
     #
     # RETURNS string
     delegate :banner_image, to: :type
-    delegate :name, :color, :logo, to: :area, prefix: true, allow_nil: true
-    delegate :attachments_enabled?,
-             :attachments_enabled,
-             :document_number_authorization_handler,
-             :promoting_committee_enabled?,
-             :custom_signature_end_date_enabled?,
-             :area_enabled?,
-             to: :type
-    delegate :type, :scope, :scope_name, :supports_required, to: :scoped_type, allow_nil: true
+    delegate :document_number_authorization_handler, :promoting_committee_enabled?, to: :type
+    delegate :type, :scope, :scope_name, to: :scoped_type, allow_nil: true
 
     # PUBLIC
     #
@@ -289,7 +280,7 @@ module Decidim
       @hashtag ||= attributes["hashtag"].to_s.delete("#")
     end
 
-    # Public: Calculates the number of total current supports.
+    # Public: Calculates the number of current supports.
     #
     # Returns an Integer.
     def supports_count
@@ -516,6 +507,15 @@ module Decidim
     # Allow ransacker to search on an Enum Field
     ransacker :state, formatter: proc { |int| states[int] }
 
+    ransacker :type_id do
+      Arel.sql("decidim_initiatives_type_scopes.decidim_initiatives_types_id")
+    end
+
+    # method for sort_link by number of supports
+    ransacker :supports_count do
+      Arel.sql("(coalesce((online_votes->>'total')::int,0) + coalesce((offline_votes->>'total')::int,0))")
+    end
+
     ransacker :id_string do
       Arel.sql(%{cast("decidim_initiatives"."id" as text)})
     end
@@ -526,32 +526,6 @@ module Decidim
 
     ransacker :author_nickname do
       Arel.sql("decidim_users.nickname")
-    end
-
-    ransacker :type_id do
-      Arel.sql("decidim_initiatives_type_scopes.decidim_initiatives_types_id")
-    end
-
-    # method for sort_link by number of supports
-    ransacker :supports_count do
-      query = <<~SQL
-        (
-          SELECT
-            CASE
-              WHEN signature_type = 0 THEN 0
-              ELSE COALESCE((offline_votes::json->>'total')::int, 0)
-            END
-            +
-            CASE
-              WHEN signature_type = 1 THEN 0
-              ELSE COALESCE((online_votes::json->>'total')::int, 0)
-            END
-           FROM decidim_initiatives as initiatives
-          WHERE initiatives.id = decidim_initiatives.id
-          GROUP BY initiatives.id
-        )
-      SQL
-      Arel.sql(query)
     end
   end
 end

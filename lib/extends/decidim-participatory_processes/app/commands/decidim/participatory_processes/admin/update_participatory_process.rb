@@ -13,12 +13,9 @@ module AdminUpdateParticipatoryProcessExtend
       {
         title: form.title,
         subtitle: form.subtitle,
+        weight: form.weight,
         slug: form.slug,
         hashtag: form.hashtag,
-        hero_image: form.hero_image,
-        remove_hero_image: form.remove_hero_image,
-        banner_image: form.banner_image,
-        remove_banner_image: form.remove_banner_image,
         promoted: form.promoted,
         description: form.description,
         short_description: form.short_description,
@@ -40,7 +37,7 @@ module AdminUpdateParticipatoryProcessExtend
         show_metrics: form.show_metrics,
         show_statistics: form.show_statistics,
         announcement: form.announcement
-      }
+      }.merge(uploader_attributes)
     end
 
   end

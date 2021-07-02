@@ -48,6 +48,9 @@ class DummyAuthorizationHandler < ::Decidim::AuthorizationHandler
   # def valid?
   #   raise NotImplementedError
   # end
+  def birthday
+    date_of_birth
+  end
 
   # If set, enforces the handler to validate the uniqueness of the field
   #

@@ -16,20 +16,6 @@ module StatusChangeNotifierExtend
 
     private
 
-    def notify_validating_initiative
-      # --- In the recent decidim:
-      # Does nothing
-      # It has been moved into SendInitiativeToTechnicalValidation command as a standard notification
-      # It would be great to move the functionality of this class, which is invoked on Initiative#after_save,
-      # to the corresponding commands to follow the architecture of Decidim.
-
-      # initiative.organization.admins.each do |user|
-      #   Decidim::Initiatives::InitiativesMailer
-      #     .notify_validating_request(initiative, user)
-      #     .deliver_later
-      # end
-    end
-
     def notify_validating_result
       notify_committee_members
       notify_author

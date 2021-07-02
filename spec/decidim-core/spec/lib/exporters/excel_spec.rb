@@ -67,16 +67,16 @@ module Decidim
         expect(worksheet.rows[2][0..4]).to eq([2, "barcat", "bares", "2, 3, 4", 0.55])
         expect(worksheet.rows[2].datetime(5)).to eq(Time.zone.local(2017, 9, 20))
 
-        expect(worksheet.rows[3][0..4]).to eq([3, "@atcat", "@ates", "1, 2, 3", 0.35])
+        expect(worksheet.rows[3][0..4]).to eq([3, "'@atcat", "'@ates", "1, 2, 3", 0.35])
         expect(worksheet.rows[3].datetime(5)).to eq(Time.zone.local(2020, 7, 20))
 
-        expect(worksheet.rows[4][0..4]).to eq([4, "=equalcat", "=equales", "1, 2, 3", 0.45])
+        expect(worksheet.rows[4][0..4]).to eq([4, "'=equalcat", "'=equales", "1, 2, 3", 0.45])
         expect(worksheet.rows[4].datetime(5)).to eq(Time.zone.local(2020, 6, 24))
 
-        expect(worksheet.rows[5][0..4]).to eq([5, "+pluscat", "+pluses", "1, 2, 3", 0.65])
+        expect(worksheet.rows[5][0..4]).to eq([5, "'+pluscat", "'+pluses", "1, 2, 3", 0.65])
         expect(worksheet.rows[5].datetime(5)).to eq(Time.zone.local(2020, 7, 15))
 
-        expect(worksheet.rows[6][0..4]).to eq([6, "-minuscat", "-minuses", "1, 2, 3", 0.75])
+        expect(worksheet.rows[6][0..4]).to eq([6, "'-minuscat", "'-minuses", "1, 2, 3", 0.75])
         expect(worksheet.rows[6].datetime(5)).to eq(Time.zone.local(2020, 6, 27))
       end
     end

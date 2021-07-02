@@ -16,7 +16,8 @@ module CreateInitiativeExtend
       initiative.transaction do
         initiative.save!
         @attached_to = initiative
-        create_attachment if process_attachments?
+        create_attachments if process_attachments?
+
         create_components_for(initiative)
         send_notification(initiative)
         notify_admins(initiative)

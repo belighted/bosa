@@ -49,19 +49,21 @@
     </div>
 
     <div class="row column">
-      <%= form.check_box :child_scope_threshold_enabled %>
-    </div>
-
-    <div class="row column">
-      <%= form.check_box :only_global_scope_enabled %>
-    </div>
-
-    <div class="row column">
       <%= form.check_box :custom_signature_end_date_enabled %>
     </div>
 
     <div class="row column">
       <%= form.check_box :area_enabled %>
+    </div>
+
+    <div class="row column">
+      <%= form.check_box :child_scope_threshold_enabled %>
+      <p class="help-text"><%== t(".child_scope_threshold_enabled_help") %></p>
+    </div>
+
+    <div class="row column">
+      <%= form.check_box :only_global_scope_enabled %>
+      <p class="help-text"><%== t(".only_global_scope_enabled_help") %></p>
     </div>
 
     <div class="row column" id="promoting-committee-details">
@@ -95,9 +97,9 @@
     <div class="row column">
       <%=
         form.select(
-            :document_number_authorization_handler,
-            current_organization.available_authorizations.map { |name| [t("#{name}.name", scope: "decidim.authorization_handlers"), name] },
-            include_blank: true
+          :document_number_authorization_handler,
+          current_organization.available_authorizations.map { |name| [t("#{name}.name", scope: "decidim.authorization_handlers"), name] },
+          include_blank: true
         )
       %>
     </div>

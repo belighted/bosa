@@ -14,13 +14,14 @@ module SystemUpdateOrganizationExtend
       organization.host = form.host
       organization.secondary_hosts = form.clean_secondary_hosts
       organization.force_users_to_authenticate_before_access_organization = form.force_users_to_authenticate_before_access_organization
-      organization.basic_auth_username = form.basic_auth_username
-      organization.basic_auth_password = form.basic_auth_password
       organization.available_authorizations = form.clean_available_authorizations
       organization.users_registration_mode = form.users_registration_mode
       organization.omniauth_settings = form.encrypted_omniauth_settings
       organization.smtp_settings = form.encrypted_smtp_settings
+      organization.file_upload_settings = form.file_upload_settings.final
 
+      organization.basic_auth_username = form.basic_auth_username
+      organization.basic_auth_password = form.basic_auth_password
       organization.castings_enabled = form.castings_enabled
       organization.initiatives_settings = form.initiatives_settings
       organization.suggestions_settings = form.suggestions_settings

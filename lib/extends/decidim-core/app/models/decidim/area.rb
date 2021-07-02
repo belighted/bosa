@@ -6,10 +6,13 @@ module AreaExtend
   extend ActiveSupport::Concern
 
   included do
+    include Decidim::HasUploadValidations
+
     attribute :color
     attribute :logo
 
     mount_uploader :logo, Decidim::AreaLogoUploader
+    validates_upload :logo
 
     has_and_belongs_to_many :suggestions, class_name: "Decidim::Suggestion", join_table: "decidim_suggestions_areas",
                             foreign_key: "decidim_area_id", association_foreign_key: "decidim_suggestion_id"

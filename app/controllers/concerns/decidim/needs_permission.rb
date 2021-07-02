@@ -23,7 +23,13 @@ module Decidim
         switch_locale do
           flash[:alert] = t("actions.unauthorized", scope: "decidim.core")
         end
-        redirect_to(request.referer || user_has_no_permission_path)
+        redirect_to(user_has_no_permission_referer || user_has_no_permission_path)
+      end
+
+      def user_has_no_permission_referer
+        return if request.referer == request.original_url
+
+        request.referer
       end
 
       def user_has_no_permission_path

@@ -26,9 +26,11 @@ describe "Organization Areas", type: :system do
       click_link "Add"
 
       within ".new_area" do
-        fill_in_i18n :area_name, "#area-name-tabs", en: "My area",
-                                                    fr: "Ma zone",
-                                                    nl: "Mijn gebied"
+        # after migration to 0.24 the fill_in_i18n is broken
+        #fill_in_i18n :area_name, "#area-name-tabs", en: "My area",
+                                                    #fr: "Ma zone",
+                                                    #nl: "Mijn gebied"
+        fill_in :area_name_en, with: "My area"
         select area_type.name["en"], from: :area_area_type_id
 
         find("*[type=submit]").click
@@ -64,9 +66,11 @@ describe "Organization Areas", type: :system do
 
         it "edits area" do
           within ".edit_area" do
-            fill_in_i18n :area_name, "#area-name-tabs", en: "Another area",
-                                                        fr: "Un autre zone",
-                                                        nl: "Een ander gebied"
+            # after migration to 0.24 the fill_in_i18n is broken
+            #fill_in_i18n :area_name, "#area-name-tabs", en: "Another area",
+                                                        #fr: "Un autre zone",
+                                                        #nl: "Een ander gebied"
+            fill_in :area_name_en, with: "Another area"
             find("*[type=submit]").click
           end
 

@@ -1,3 +1,5 @@
+<% url_params = (redirect_url.present? ? { redirect_url: redirect_url } : {}) %>
+
 <div class="row column authorizations-list">
   <section class="section">
     <% if @granted_authorizations.any? %>
@@ -6,7 +8,7 @@
           <% if authorization.expired? %>
             <%# Probably this is wrong way to handle it here, but it.. just works :/ %>
             <% is_omniauth = %w(saml csam).include?(authorization.metadata&.try(:[], :provider)) %>
-            <% url = is_omniauth ? decidim.send("user_#{authorization.name}_omniauth_authorize_path") : authorization_method(authorization).root_path %>
+            <% url = is_omniauth ? decidim.send("user_#{authorization.name}_omniauth_authorize_path") : authorization_method(authorization).root_path(**url_params) %>
             <%= link_to url, method: (is_omniauth ? :post : :get), title: t(".expired_verification"), class: "card--list__item" do %>
               <% render partial: "granted_authorization", locals: { authorization: authorization } %>
             <% end %>
@@ -28,7 +30,7 @@
     <% if @pending_authorizations.any? %>
       <div class="card card--list">
         <% @pending_authorizations.each do |authorization| %>
-          <%= link_to authorization_method(authorization).resume_authorization_path do %>
+          <%= link_to authorization_method(authorization).resume_authorization_path(**url_params) do %>
             <div class="card--list__item">
               <div class="card--list__text">
                 <%= icon "reload", class: "card--list__icon", role: "img" %>
@@ -57,7 +59,7 @@
         <% unauthorized_methods.each do |unauthorized_method| %>
           <%# Probably this is wrong way to handle it here, but it.. just works :/ %>
           <% is_omniauth = %w(saml csam).include?(unauthorized_method.name) %>
-          <% url = is_omniauth ? decidim.send("user_#{unauthorized_method.name}_omniauth_authorize_path") : unauthorized_method.root_path %>
+          <% url = is_omniauth ? decidim.send("user_#{unauthorized_method.name}_omniauth_authorize_path") : unauthorized_method.root_path(**url_params) %>
           <%= link_to url, method: (is_omniauth ? :post : :get) do %>
             <div class="card--list__item">
               <div class="card--list__text">

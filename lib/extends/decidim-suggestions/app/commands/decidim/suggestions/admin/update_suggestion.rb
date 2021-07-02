@@ -17,9 +17,9 @@ module AdminUpdateSuggestionExtend
       attrs[:decidim_area_id] = form.area_id
       attrs[:area_ids] = form.area_ids.reject(&:blank?)
 
-      if suggestion.published?
-        @notify_extended = true if form.signature_end_date != suggestion.signature_end_date &&
-          form.signature_end_date > suggestion.signature_end_date
+      if suggestion.published? && form.signature_end_date != suggestion.signature_end_date &&
+        form.signature_end_date > suggestion.signature_end_date
+        @notify_extended = true
       end
     end
 

@@ -28,7 +28,7 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
 
       it "redirects the user to the authorization form after the first sign in" do
         fill_in "Document number", with: "123456789X"
-        page.execute_script("$('#authorization_handler_date_of_birth').focus()")
+        page.execute_script("$('#authorization_handler_birthday').focus()")
         page.find(".datepicker-dropdown .day", text: "12").click
 
         click_button "Send"
@@ -81,10 +81,10 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
 
         # click_link "Authorizations"
         visit decidim_verifications.authorizations_path
-        click_link "BOSA dummy authorization"
+        click_link "Admin can impersonate users"
 
         fill_in "Document number", with: "123456789X"
-        page.execute_script("$('#authorization_handler_date_of_birth').focus()")
+        page.execute_script("$('#authorization_handler_birthday').focus()")
         page.find(".datepicker-dropdown .day", text: "12").click
         click_button "Send"
 
@@ -96,8 +96,8 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
         end
 
         within ".authorizations-list" do
-          expect(page).to have_content("BOSA dummy authorization")
-          expect(page).to have_no_link("BOSA dummy authorization")
+          expect(page).to have_content("Admin can impersonate users")
+          expect(page).to have_no_link("Admin can impersonate users")
         end
       end
 
@@ -108,10 +108,10 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
 
         # click_link "Authorizations"
         visit decidim_verifications.authorizations_path
-        click_link "BOSA dummy authorization"
+        click_link "Admin can impersonate users"
 
-        fill_in "Document number", with: "12345678"
-        page.execute_script("$('#authorization_handler_date_of_birth').focus()")
+        fill_in "Document number", with: "12345678%"
+        page.execute_script("$('#authorization_handler_birthday').focus()")
         page.find(".datepicker-dropdown .day", text: "12").click
         click_button "Send"
 
@@ -135,7 +135,7 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
         visit decidim_verifications.authorizations_path
 
         within ".authorizations-list" do
-          expect(page).to have_content("BOSA dummy authorization")
+          expect(page).to have_content("Admin can impersonate users")
         end
       end
 
@@ -154,7 +154,7 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
             visit decidim_verifications.authorizations_path
 
             within ".authorizations-list" do
-              expect(page).to have_no_link("BOSA dummy authorization")
+              expect(page).to have_no_link("Admin can impersonate users")
               expect(page).to have_no_css(".authorization-renewable")
             end
           end
@@ -174,7 +174,7 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
             visit decidim_verifications.authorizations_path
 
             within ".authorizations-list" do
-              expect(page).to have_link("BOSA dummy authorization")
+              expect(page).to have_link("Admin can impersonate users")
               expect(page).to have_css(".authorization-renewable")
             end
           end
@@ -186,10 +186,10 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
 
             # click_link "Authorizations"
             visit decidim_verifications.authorizations_path
-            click_link "BOSA dummy authorization"
+            click_link "Admin can impersonate users"
 
             within "#renew-modal" do
-              expect(page).to have_content("BOSA dummy authorization")
+              expect(page).to have_content("Admin can impersonate users")
               expect(page).to have_content("This is the data of the current verification:")
               expect(page).to have_content("Continue")
               expect(page).to have_content("Cancel")
@@ -203,7 +203,7 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
               end
               # click_link "Authorizations"
               visit decidim_verifications.authorizations_path
-              click_link "BOSA dummy authorization"
+              click_link "Admin can impersonate users"
               within "#renew-modal" do
                 click_link "Continue"
               end
@@ -229,7 +229,7 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
           visit decidim_verifications.authorizations_path
 
           within ".authorizations-list" do
-            expect(page).to have_no_link("BOSA dummy authorization")
+            expect(page).to have_no_link("Admin can impersonate users")
             expect(page).to have_content(I18n.localize(authorization.granted_at, format: :long))
           end
         end
@@ -249,8 +249,8 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
           visit decidim_verifications.authorizations_path
 
           within ".authorizations-list" do
-            expect(page).to have_link("BOSA dummy authorization")
-            click_link "BOSA dummy authorization"
+            expect(page).to have_link("Admin can impersonate users")
+            click_link "Admin can impersonate users"
           end
           within "#renew-modal" do
             click_link "Continue"

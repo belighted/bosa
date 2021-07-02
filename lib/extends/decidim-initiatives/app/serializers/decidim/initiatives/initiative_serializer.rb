@@ -22,21 +22,25 @@ module InitiativeSerializerExtend
         reference: initiative.reference,
         title: initiative.title,
         description: initiative.description,
+        state: initiative.state,
         created_at: initiative.created_at,
         published_at: initiative.published_at,
-        hashtag: initiative.hashtag,
-        type: {
-          id: initiative.type.try(:id),
-          name: initiative.type.try(:title) || empty_translatable
-        },
+        signature_end_date: initiative.signature_end_date,
+        signature_type: initiative.signature_type,
         scope: {
           id: initiative.scope.try(:id),
           name: initiative.scope.try(:name) || empty_translatable
         },
-        signature_type: initiative.signature_type,
+        type: {
+          id: initiative.type.try(:id),
+          name: initiative.type.try(:title) || empty_translatable
+        },
+        authors: {
+          id: initiative.author_users.map(&:id),
+          name: initiative.author_users.map(&:name)
+        },
+        hashtag: initiative.hashtag,
         signature_start_date: initiative.signature_start_date,
-        signature_end_date: initiative.signature_end_date,
-        state: initiative.state,
         offline_votes: initiative.offline_votes,
         answer: initiative.answer,
         attachments: {
@@ -44,10 +48,6 @@ module InitiativeSerializerExtend
           files: serialize_attachments
         },
         components: serialize_components,
-        authors: {
-          id: initiative.author_users.map(&:id),
-          name: initiative.author_users.map(&:name)
-        },
         firms: {
           scopes: uniq_vote_scopes
         }

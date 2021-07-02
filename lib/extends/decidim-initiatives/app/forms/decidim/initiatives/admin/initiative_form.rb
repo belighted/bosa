@@ -10,7 +10,7 @@ module AdminInitiativeFormExtend
     attribute :area_ids, Array[Integer]
 
     clear_validators!
-    validates :title, :description, presence: true
+    validates :title, :description, translatable_presence: true
     validate :title, :title_max_length
     validates :area, presence: true, if: ->(form) { form.area_id.present? }
     validates :signature_type, presence: true, if: :signature_type_updatable?
@@ -54,12 +54,6 @@ module AdminInitiativeFormExtend
           errors.add("title_#{locale}".to_s, :too_long, { count: 150 })
         end
       end
-    end
-
-    def scoped_type_id
-      return unless type && decidim_scope_id
-
-      type.scopes.find_by(decidim_scopes_id: decidim_scope_id.presence).id
     end
 
     def hashtag_uniqueness

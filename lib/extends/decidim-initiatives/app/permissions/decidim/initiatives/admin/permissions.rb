@@ -104,12 +104,12 @@ module AdminPermissionsExtend
       when :accept
         allowed = initiative.published? &&
                   initiative.signature_end_date < Date.current &&
-                  initiative.percentage >= 100
+                  initiative.supports_goal_reached?
         toggle_allow(allowed)
       when :reject
         allowed = initiative.published? &&
                   initiative.signature_end_date < Date.current &&
-                  initiative.percentage < 100
+                  initiative.supports_goal_reached?
         toggle_allow(allowed)
       when :send_to_technical_validation
         toggle_allow(allowed_to_send_to_technical_validation?)

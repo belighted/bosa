@@ -74,6 +74,12 @@
       </div>
     <% end %>
 
+    <% if can_edit_custom_signature_end_date?(current_initiative) %>
+      <div class="row column signature-end-date <%= "hide" if current_initiative.no_signature? %>">
+        <%= form.date_field :signature_end_date, disabled: !allowed_to?(:update, :initiative, initiative: current_initiative) %>
+      </div>
+    <% end %>
+
     <% if current_initiative.area_enabled? && current_user.admin? %>
       <div class="field">
         <%= form.areas_select :area_ids,
@@ -92,12 +98,6 @@
         <div class="columns xlarge-6">
           <%= form.check_box :no_signature, help_text: t(".help_text") %>
         </div>
-      </div>
-    <% end %>
-
-    <% if can_edit_custom_signature_end_date?(current_initiative) %>
-      <div class="row column signature-end-date <%= "hide" if current_initiative.no_signature? %>">
-        <%= form.date_field :signature_end_date, disabled: !allowed_to?(:update, :initiative, initiative: current_initiative) %>
       </div>
     <% end %>
 

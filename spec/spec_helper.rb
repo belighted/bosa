@@ -17,10 +17,12 @@
 # ---------------------------------------------------------------------------------------------------------------------
 # require 'decidim'
 require "decidim/dev"
+require "database_cleaner/active_record"
 ENV["ENGINE_ROOT"] = File.dirname(__dir__)
 Decidim::Dev::dummy_app_path = File.expand_path(File.join("."))
 
 require "decidim/dev/test/base_spec_helper"
+require "decidim/faker/internet"
 
 # Fix loading shared examples from subfolders
 ['admin', 'initiatives'].each do |f|
@@ -30,11 +32,11 @@ end
 
 require "decidim/core/test/factories"
 require "decidim/initiatives/test/factories"
+Dir["#{Rails.root.join('spec')}/support/**/*.rb"].each { |f| require f }
+
+DatabaseCleaner.strategy = :truncation
 
 # ---------------------------------------------------------------------------------------------------------------------
-
-require "database_cleaner/active_record"
-DatabaseCleaner.strategy = :truncation
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

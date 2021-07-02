@@ -65,18 +65,6 @@ module InitiativeHelperExtend
       send("#{tag}_to", "", html_options, &block)
     end
 
-    def can_edit_custom_signature_end_date?(initiative)
-      return false unless initiative.custom_signature_end_date_enabled?
-
-      initiative.created? || initiative.validating?
-    end
-
-    def can_edit_area?(initiative)
-      return false unless initiative.area_enabled?
-
-      initiative.created? || initiative.validating?
-    end
-
     def authorized_creation_modal_button_to(action, html_options, &block)
       html_options ||= {}
 

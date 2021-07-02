@@ -2,15 +2,42 @@
   <h1 id="suggestions-count" class="title-action__title section-heading">
     <%= render partial: "count" %>
   </h1>
-  <% if allowed_to? :create, :suggestion %>
-    <%= link_to create_suggestion_path(:select_suggestion_type), class: "title-action__action button small" do %>
+  <% if Decidim::Suggestions.creation_enabled %>
+    <% if current_user && allowed_to?(:create, :suggestion) %>
+      <%= link_to create_suggestion_path(:select_suggestion_type), class: "title-action__action button small" do %>
         <%= t(".new_suggestion") %>
-        <%= icon "plus", role: "img",  aria_label: t(".new_suggestion") %>
-    <% end %>
-  <% else %>
-    <%= authorized_creation_modal_button_to create_suggestion_path(:select_suggestion_type), remote: true, class: "title-action__action button small hollow" do %>
-      <%= t(".new_suggestion") %>
-      <%= icon "plus" %>
+        <%= icon "plus", role: "img", "aria-hidden": true %>
+      <% end %>
+    <% elsif current_user %>
+      <button type="button" class="title-action__action button small" data-open="not-authorized-modal" aria-controls="not-authorized-modal" aria-haspopup="true" tabindex="0">
+        <%= t(".new_suggestion") %>
+        <%= icon "plus", role: "img", "aria-hidden": true %>
+      </button>
+    <% else %>
+      <%= authorized_creation_modal_button_to create_suggestion_path(:select_suggestion_type), remote: true, class: "title-action__action button small hollow" do %>
+        <%= t(".new_suggestion") %>
+        <%= icon "plus" %>
+      <% end %>
     <% end %>
   <% end %>
+</div>
+
+<div class="reveal not-authorized-reveal" id="not-authorized-modal" aria-hidden="true" role="dialog" aria-labelledby="not-authorized-modal-title" data-reveal data-multiple-opened="true">
+  <div class="reveal__header">
+    <h2 class="reveal__title" id="not-authorized-modal-title"><%= t(".not_authorized.title") %></h2>
+    <button class="close-button" data-close aria-label="<%= t(".not_authorized.close") %>"
+            type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="not-authhorized-content">
+    <div class="not-authorized-modal-content">
+      <p>
+        <%= t(".not_authorized.explanation") %>
+      </p>
+    </div>
+  </div>
+  <div class="not-authorized-modal-footer reveal__footer">
+    <%= link_to t(".not_authorized.authorizations_page"), decidim_verifications.authorizations_path(redirect_url: create_suggestion_url(:select_suggestion_type)), class: "button expanded" %>
+  </div>
 </div>

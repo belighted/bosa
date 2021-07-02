@@ -31,7 +31,7 @@ module Decidim
       end
 
       context "when document number is not valid" do
-        let(:document_number) { "123456" }
+        let(:document_number) { "123456%" }
 
         it { is_expected.to eq(false) }
       end

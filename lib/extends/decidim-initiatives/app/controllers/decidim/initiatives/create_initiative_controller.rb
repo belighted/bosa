@@ -8,9 +8,9 @@ module CreateInitiativeControllerExtend
   # Changes moved from decidim-module-initiatives_nosignature_allowed
 
   included do
-    before_action :enforce_create_initiative_permission, only: [:show, :update]
 
     def show
+      enforce_permission_to :create, :initiative
       send("#{step}_step", initiative: session_initiative, type_id: params[:type_id])
     end
 
@@ -40,18 +40,6 @@ module CreateInitiativeControllerExtend
       render_wizard
     end
 
-    def finish_step(_parameters)
-      session[:initiative][:description] = nil
-      render_wizard
-    end
-
-    def scopes
-      @scopes ||= @form.available_scopes
-    end
-
-    def enforce_create_initiative_permission
-      enforce_permission_to :create, :initiative
-    end
   end
 end
 

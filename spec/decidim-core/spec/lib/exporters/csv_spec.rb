@@ -48,14 +48,14 @@ module Decidim
         data = CSV.parse(exported, headers: true, col_sep: ";").map(&:to_h)
         expect(data[0]["serialized_name/ca"]).to eq("foocat")
         expect(data[1]["serialized_name/ca"]).to eq("barcat")
-        expect(data[2]["serialized_name/ca"]).to eq("@atcat")
-        expect(data[2]["serialized_name/es"]).to eq("@ates")
-        expect(data[3]["serialized_name/ca"]).to eq("=equalcat")
-        expect(data[3]["serialized_name/es"]).to eq("=equales")
-        expect(data[4]["serialized_name/ca"]).to eq("+pluscat")
-        expect(data[4]["serialized_name/es"]).to eq("+pluses")
-        expect(data[5]["serialized_name/ca"]).to eq("-minuscat")
-        expect(data[5]["serialized_name/es"]).to eq("-minuses")
+        expect(data[2]["serialized_name/ca"]).to eq("'@atcat")
+        expect(data[2]["serialized_name/es"]).to eq("'@ates")
+        expect(data[3]["serialized_name/ca"]).to eq("'=equalcat")
+        expect(data[3]["serialized_name/es"]).to eq("'=equales")
+        expect(data[4]["serialized_name/ca"]).to eq("'+pluscat")
+        expect(data[4]["serialized_name/es"]).to eq("'+pluses")
+        expect(data[5]["serialized_name/ca"]).to eq("'-minuscat")
+        expect(data[5]["serialized_name/es"]).to eq("'-minuses")
       end
     end
   end

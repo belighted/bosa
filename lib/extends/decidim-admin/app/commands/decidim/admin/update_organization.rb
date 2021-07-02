@@ -21,9 +21,12 @@ module AdminUpdateOrganizationExtend
         github_handler: form.github_handler,
         badges_enabled: form.badges_enabled,
         user_groups_enabled: form.user_groups_enabled,
+        comments_max_length: form.comments_max_length,
+        enable_machine_translations: form.enable_machine_translations,
         admin_terms_of_use_body: form.admin_terms_of_use_body,
         rich_text_editor_in_public_views: form.rich_text_editor_in_public_views
       }.merge(welcome_notification_attributes)
+        .merge(machine_translation_attributes || {})
         .merge(translation_settings)
     end
 
