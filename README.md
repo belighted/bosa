@@ -6,6 +6,17 @@ This is the repository for the main application for BOSA, based on [Decidim](htt
 
 It includes specificities for Belgian Federal Government, Regions and Citizen. 
 
+## Prerequisites & dependencies
+
+It is using the `decidim-antivirus` gem, which requires additional installations.
+
+You need to have ClamAV installed on the target machine for the antivirus checks to actually work. With the default configuration, you will also need the ClamAV daemon installed in order to make the antivirus checks more efficient.
+
+See:
+* https://github.com/mainio/decidim-module-antivirus#prerequisites
+* https://github.com/mainio/ratonvirus-clamby
+
+for more info.
 
 ## Development setup
 

@@ -70,7 +70,7 @@ module InitiativeFormExtend
         errors.add(:attachment, :needs_to_be_reattached)
       elsif errors.keys.reject {|k| k == :attachment}.blank?
         attachment.errors.each {|error| errors.add(:attachment, error)}
-        attachment = Attachment.new(file: attachment.try(:file))
+        attachment = Decidim::Attachment.new(file: attachment.try(:file))
         errors.add(:attachment, :file) if !attachment.save && attachment.errors.has_key?(:file)
       end
     end
