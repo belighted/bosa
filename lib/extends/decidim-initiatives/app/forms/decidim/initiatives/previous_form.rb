@@ -6,12 +6,13 @@ module InitiativesPreviousFormExtend
   extend ActiveSupport::Concern
 
   included do
+    translatable_attribute :title, String
+    translatable_attribute :description, String
 
     clear_validators!
-    validates :title, :description, presence: true
-    validates :description, length: {maximum: 4000}
+    validates :title, :description, translatable_presence: true
+    validates :description, length: { maximum: 4000 }
     validates :type_id, presence: true
-
   end
 end
 

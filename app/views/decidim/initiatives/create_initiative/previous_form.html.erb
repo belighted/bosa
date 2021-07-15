@@ -23,11 +23,11 @@
           <%= f.hidden_field :type_id %>
 
           <div class="field">
-            <%= f.text_field :title, autofocus: true, required: true %>
+            <%= f.translated :text_field, :title, autofocus: true %>
           </div>
 
           <div class="field">
-            <%= f.editor :description, lines: 8, toolbar: :full, required: true %>
+            <%= f.translated :editor, :description, toolbar: :full, lines: 8 %>
           </div>
 
           <div class="actions">

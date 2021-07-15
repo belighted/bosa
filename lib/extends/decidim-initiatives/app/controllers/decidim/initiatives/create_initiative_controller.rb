@@ -33,9 +33,24 @@ module CreateInitiativeControllerExtend
       render_wizard
     end
 
+    def show_similar_initiatives_step(parameters)
+      @form = build_form(Decidim::Initiatives::PreviousForm, parameters)
+      unless @form.valid?
+        redirect_to previous_wizard_path(validate_form: true)
+        return
+      end
+
+      #if similar_initiatives.empty?
+      @form = build_form(Decidim::Initiatives::InitiativeForm, parameters)
+      redirect_to wizard_path(:fill_data)
+      #end
+
+      render_wizard unless performed?
+    end
+
     def fill_data_step(parameters)
       @form = build_form(Decidim::Initiatives::InitiativeForm, parameters)
-      @form.attachment = form(Decidim::AttachmentForm).from_params({title: parameters.dig(:initiative, :attachment, :title)})
+      @form.attachment = form(Decidim::AttachmentForm).from_params({ title: parameters.dig(:initiative, :attachment, :title) })
 
       render_wizard
     end

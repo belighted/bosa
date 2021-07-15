@@ -6,9 +6,11 @@ module InitiativeFormExtend
   extend ActiveSupport::Concern
 
   included do
+    translatable_attribute :title, String
+    translatable_attribute :description, String
 
     clear_validators!
-    validates :title, :description, presence: true
+    validates :title, :description, translatable_presence: true
     validates :signature_type, presence: true
     validates :type_id, presence: true
     validates :area, presence: true, if: ->(form) { form.area_id.present? }
